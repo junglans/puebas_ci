@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTPS_Listener_config" doc:name="HTTP Listener config" doc:id="2c341aa4-4c94-413f-a13e-f3af185444be" basePath="/">
+		<http:listener-connection host="0.0.0.0" port="${https.port}" protocol="HTTPS">
+			<tls:context >
+				<tls:key-store type="jks" path="dummy.jks" alias="dummy" keyPassword="dummy123" password="dummy123"/>
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	
+	<configuration-properties doc:name="Configuration properties" doc:id="6f2118dd-cdae-4707-b2f5-2cb59dbf0fa0" file="config.yaml" />
+	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="068aae56-375b-4625-8963-c110f1eace1a" >
+		<wsc:connection wsdlLocation="salesforce.wsdl" service="SforceService" port="Soap" address="https://login.salesforce.com/services/Soap/c/48.0" />
+	</wsc:config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d03be76e-bb93-4a53-b772-e2f7315e9941" >
+		<http:request-connection protocol="HTTPS" host="login.salesforce.com" />
+	</http:request-config>
+	<flow name="login" doc:id="3090d0c8-2dbf-4f93-85c3-97787371c92c" >
+		<http:listener doc:name="Listener" doc:id="fbff358a-fc61-4ab7-9a50-4b616604f608" config-ref="HTTPS_Listener_config" path="login" allowedMethods="POST">
+			<http:response statusCode="#[vars.httpStatus default 200]" />
+		</http:listener>
+		<http:request method="POST" doc:name="Login SalesForce" doc:id="82ab9725-8df2-416d-8985-ff8f33d47707" config-ref="HTTP_Request_configuration" path="/services/oauth2/authorize">
+			<http:query-params ><![CDATA[#[{
+	"client_id" : "3MVG91BJr_0ZDQ4tEp_GOf8pMSl_1AJnkSergAKonhGHYigNJIdAlcmeFK71veh67LsgZMuPQ4_MNP2Gib.32",
+	"client_secret": "0A90A9A0F02C2BA5C1EAFCEF1B8CFB06D0CD238AA8207BC6463FF0DE03D4B611",
+	"redirect_uri": "https://pruebaoauthcallback.us-e2.cloudhub.io/callback",
+	"response_type": "code"
+	}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="96ae58a2-7e70-40ad-9485-80b1c7b62e91" />
+	</flow>
+	<flow name="callback" doc:id="c9c55373-16ae-436f-b98e-9112c77ec49f" >
+		<http:listener doc:name="Listener" doc:id="2821e6b1-b750-4625-ad57-179e138e26b9" config-ref="HTTPS_Listener_config" path="/callback"/>
+		<logger level="INFO" doc:name="Log" doc:id="0cf7bb43-d9b0-4acc-8321-8466b0454bca"/>
+		<set-payload value='#[output application/json
+---
+{
+	message: "OK",
+	code: attributes.queryParams.code
+}]' doc:name="Set Payload" doc:id="e679d29e-9358-4a97-b755-151e9641432e" />
+	</flow>
+</mule>

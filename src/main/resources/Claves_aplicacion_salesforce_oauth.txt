@@ -1,0 +1,12 @@
+cuenta Salesforce: mule.user100@gmail.com
+pwd: Lacerta1
+
+client_id (Consumer Key): 3MVG91BJr_0ZDQ4tEp_GOf8pMSl_1AJnkSergAKonhGHYigNJIdAlcmeFK71veh67LsgZMuPQ4_MNP2Gib.32
+client_secret (Consumer Secret): 0A90A9A0F02C2BA5C1EAFCEF1B8CFB06D0CD238AA8207BC6463FF0DE03D4B611
+Selected OAuth Scopes: Full access (full)
+redirect_uri (Callback URL): https://pruebaoauthcallback.us-e2.cloudhub.io/callback
+
+grant_type: authorization_code
+
+
+La clave del keystore es dummy123
