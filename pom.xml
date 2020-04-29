@@ -39,7 +39,7 @@
 					      <password>${password}</password>
 					      <applicationName>${cloudhub.application.name}</applicationName>
 					      <environment>${environment}</environment>
-						<worker>${worker}</worker>
+						<workers>${workers}</workers>
 						<workerType>${workerType}</workerType>
 						<region>us-east-2</region>
 					      <properties>
