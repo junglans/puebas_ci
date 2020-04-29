@@ -33,19 +33,20 @@
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>
-					      <uri>https://anypoint.mulesoft.com</uri>
-					      <muleVersion>${app.runtime}</muleVersion>
-					      <username>${username}</username>
-					      <password>${password}</password>
-					      <applicationName>${cloudhub.application.name}</applicationName>
-					      <environment>${environment}</environment>
+						<uri>https://anypoint.mulesoft.com</uri>
+						<muleVersion>${app.runtime}</muleVersion>
+						<username>${username}</username>
+						<password>${password}</password>
+						<applicationName>${cloudhub.application.name}</applicationName>
+						<environment>${environment}</environment>
 						<workers>${workers}</workers>
 						<workerType>${workerType}</workerType>
 						<region>us-east-2</region>
-					      <properties>
-					        <key>value</key>
-					      </properties>
-					 </cloudHubDeployment>				
+						<objectStoreV2>true</objectStoreV2>
+						<properties>
+							<key>value</key>
+						</properties>
+					</cloudHubDeployment>
 				</configuration>
 			</plugin>
 		</plugins>
