@@ -20,6 +20,8 @@
 		<username>mule-user-120</username>
 		<password>Lacerta1</password>
 		<environment>Sandbox</environment>
+		<workers>1</workers>
+		<workerType>MICRO</workerType>
 	</properties>
 
 	<build>
@@ -37,6 +39,9 @@
 					      <password>${password}</password>
 					      <applicationName>${cloudhub.application.name}</applicationName>
 					      <environment>${environment}</environment>
+						<worker>${worker}</worker>
+						<workerType>${workerType}</workerType>
+						<region>us-east-2</region>
 					      <properties>
 					        <key>value</key>
 					      </properties>
