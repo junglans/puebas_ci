@@ -46,4 +46,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	code: attributes.queryParams.code
 }]' doc:name="Set Payload" doc:id="e679d29e-9358-4a97-b755-151e9641432e" />
 	</flow>
+	<flow name="implementationFlow" doc:id="fc33d076-7435-4fa7-b476-782caef29677" >
+		<http:listener doc:name="Listener" doc:id="9b95a052-3c0a-4374-bf3b-7ef6faaf561f" config-ref="HTTPS_Listener_config" path="/echo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="84794e18-9e92-44b4-904f-ed43d3828c24" message="#[payload]"/>
+		<set-payload value="#['Echo :' ++ payload as String default 'NULO']" doc:name="Set Payload" doc:id="2bd7aaf3-e55f-45ee-babf-0b073d8aae78" />
+	</flow>
 </mule>
